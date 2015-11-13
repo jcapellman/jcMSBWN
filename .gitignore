@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/jcMSBWN.UWP/bin/x86/Debug
+/jcMSBWN.UWP/obj
+/.vs/jcMSBWN/v14

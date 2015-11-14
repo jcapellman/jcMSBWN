@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Windows.Devices.WiFi;
@@ -38,6 +39,7 @@ namespace jcMSBWN.UWP.ViewModels {
                 Networks.Add(network);
             }
 
+            Networks = new ObservableCollection<WiFiAvailableNetwork>(Networks.OrderByDescending(a => a.SignalBars));
             return true;
         }
     }

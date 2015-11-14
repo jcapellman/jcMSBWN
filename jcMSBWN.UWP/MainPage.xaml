@@ -30,8 +30,9 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         
-                        <TextBlock Grid.Column="0" Text="{Binding Ssid}" />
-                        <Image Grid.Column="1" Source="{Binding SignalBars, Converter={StaticResource SignalBarsConverter}}" />
+                        <TextBlock Grid.Column="0" FontSize="24" Text="{Binding Ssid}" />
+
+                        <Image Grid.Column="1" Stretch="Fill" Width="32" Height="32" Source="{Binding SignalBars, Converter={StaticResource SignalBarsConverter}}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

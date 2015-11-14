@@ -8,7 +8,7 @@ namespace jcMSBWN.UWP.Converters {
         public object Convert(object value, Type targetType, object parameter, string language) {
             var numBars = System.Convert.ToInt32(value);
 
-            return new BitmapImage(new System.Uri($"Assets/wifi_signal_{numBars}_bar.png", UriKind.RelativeOrAbsolute));
+            return $"/Assets/wifi_signal_{numBars}_bar.png";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 using jcMSBWN.UWP.ViewModels;
@@ -15,6 +16,18 @@ namespace jcMSBWN.UWP {
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             await viewModel.ScanNetworks();
+        }
+
+        private void AbbSetting_OnClick(object sender, RoutedEventArgs e) {
+            pMain.IsOpen = true;
+        }
+
+        private void BtnRegister_OnClick(object sender, RoutedEventArgs e) {
+            
+        }
+
+        private void BtnClose_OnClick(object sender, RoutedEventArgs e) {
+            pMain.IsOpen = false;
         }
     }
 }

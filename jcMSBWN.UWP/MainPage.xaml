@@ -19,6 +19,10 @@
             <RowDefinition Height="*" /> 
         </Grid.RowDefinitions>
         
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
         <TextBlock Grid.Row="0" Margin="10,10,10,10" Text="Select the networks you wish to be notified about when in range" />
         
         <ListBox Grid.Row="1" ItemsSource="{Binding Networks}" SelectionMode="Multiple">
@@ -37,11 +41,28 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <Popup Grid.Row="0" Grid.RowSpan="2" MinWidth="300" MinHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center" IsOpen="False" IsLightDismissEnabled="True" x:Name="pMain">
+            <Grid Background="#4e4e4e" MinWidth="300" MinHeight="300">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="Settings" Margin="10,10,0,0" FontSize="20" />
+                
+                <Button Grid.Row="1" Content="Register Tile" Margin="0,20,0,10" HorizontalAlignment="Center" Click="BtnRegister_OnClick" />
+                
+                <Button Grid.Row="2" Content="Close" Margin="0,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="BtnClose_OnClick" />
+            </Grid>
+        </Popup>
     </Grid>
 
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Label="Save" Icon="Save" />
+            <AppBarButton Label="Settings" Icon="Setting" Click="AbbSetting_OnClick" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

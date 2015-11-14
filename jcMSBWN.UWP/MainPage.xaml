@@ -6,8 +6,13 @@
     RequestedTheme="Dark"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:jcMSBWN.UWP.Converters"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:SignalBarsByteToIcon x:Key="SignalBarsConverter" />
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,7 +25,13 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Text="{Binding Ssid}" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="{Binding Ssid}" />
+                        <Image Grid.Column="1" Source="{Binding SignalBars, Converter={StaticResource SignalBarsConverter}}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

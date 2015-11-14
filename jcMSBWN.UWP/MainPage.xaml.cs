@@ -22,8 +22,8 @@ namespace jcMSBWN.UWP {
             pMain.IsOpen = true;
         }
 
-        private void BtnRegister_OnClick(object sender, RoutedEventArgs e) {
-            
+        private async void BtnRegister_OnClick(object sender, RoutedEventArgs e) {
+            await viewModel.RegisterTile();
         }
 
         private void BtnClose_OnClick(object sender, RoutedEventArgs e) {

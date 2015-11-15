@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,10 +9,14 @@ using Microsoft.Band.Tiles;
 
 using Windows.Devices.WiFi;
 using Windows.UI.Xaml.Media.Imaging;
+
+using jcMSBWN.UWP.Enums;
 using jcMSBWN.UWP.Helpers;
 
 namespace jcMSBWN.UWP.ViewModels {
     public class MainModel : BaseModel {
+        readonly SettingsHelper _setting = new SettingsHelper();
+
         private WiFiAdapter _adapter;
         
         private ObservableCollection<WiFiAvailableNetwork> _networks;
@@ -21,8 +26,16 @@ namespace jcMSBWN.UWP.ViewModels {
             set { _networks = value; OnPropertyChanged(); }
         }
 
+        private List<string> _selectedNetworks;
+
+        public List<string> SelectedNetworks {
+            get { return _selectedNetworks; }
+            set { _selectedNetworks = value; OnPropertyChanged(); }
+        }
+
         public MainModel() {
             Networks = new ObservableCollection<WiFiAvailableNetwork>();
+            SelectedNetworks = new List<string>();
         }
 
         public async Task<bool> RegisterTile() {
@@ -46,11 +59,15 @@ namespace jcMSBWN.UWP.ViewModels {
                 };
 
                 await bandClient.TileManager.AddTileAsync(tile);
-
-                var setting = new SettingsHelper();
-
-                setting.WriteSetting("TileID", tile.TileId);
+                
+                _setting.WriteSetting(SETTINGS.TILE_ID, tile.TileId);
             }
+
+            return true;
+        }
+
+        public bool SaveNetworks() {
+            _setting.WriteSetting(SETTINGS.NETWORKS, SelectedNetworks);
 
             return true;
         }
@@ -61,7 +78,7 @@ namespace jcMSBWN.UWP.ViewModels {
             var pairedBands = await BandClientManager.Instance.GetBandsAsync();
 
             using (var bandClient = await BandClientManager.Instance.ConnectAsync(pairedBands[0])) {
-                await bandClient.NotificationManager.ShowDialogAsync(setting.GetSetting<Guid>("TileID"), title, body);
+                await bandClient.NotificationManager.ShowDialogAsync(setting.GetSetting<Guid>(SETTINGS.TILE_ID), title, body);
             }
         
             return true;
@@ -87,6 +104,9 @@ namespace jcMSBWN.UWP.ViewModels {
             }
 
             Networks = new ObservableCollection<WiFiAvailableNetwork>(Networks.OrderByDescending(a => a.SignalBars));
+
+            SelectedNetworks = _setting.GetSetting<List<string>>(SETTINGS.NETWORKS) ?? new List<string>();
+
             return true;
         }
     }

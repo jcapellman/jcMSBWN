@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.Devices.WiFi;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -15,7 +16,7 @@ namespace jcMSBWN.UWP {
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
-            await viewModel.ScanNetworks();
+            var result = await viewModel.ScanNetworks();
         }
 
         private void AbbSetting_OnClick(object sender, RoutedEventArgs e) {
@@ -28,6 +29,16 @@ namespace jcMSBWN.UWP {
 
         private void BtnClose_OnClick(object sender, RoutedEventArgs e) {
             pMain.IsOpen = false;
+        }
+
+        private void btnSave_OnClick(object sender, RoutedEventArgs e) {
+            foreach (var item in lstViewNetworks.SelectedItems) {
+                var tItem = (WiFiAvailableNetwork) item;
+
+                viewModel.SelectedNetworks.Add(tItem.Ssid);
+            }
+
+            viewModel.SaveNetworks();
         }
     }
 }

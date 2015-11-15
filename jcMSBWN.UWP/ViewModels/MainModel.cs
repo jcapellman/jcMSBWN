@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 using jcMSBWN.UWP.Enums;
 using jcMSBWN.UWP.Helpers;
+using jcMSBWN.UWP.Objects;
 
 namespace jcMSBWN.UWP.ViewModels {
     public class MainModel : BaseModel {
@@ -75,7 +76,7 @@ namespace jcMSBWN.UWP.ViewModels {
         }
 
         public bool SaveNetworks() {
-            _setting.WriteSetting(SETTINGS.NETWORKS, SelectedNetworks);
+            _setting.WriteSetting(SETTINGS.NETWORKS, new WifiNetworkSelectionItem {Networks = SelectedNetworks});
 
             return true;
         }
@@ -115,7 +116,11 @@ namespace jcMSBWN.UWP.ViewModels {
 
             Networks = new ObservableCollection<WiFiAvailableNetwork>(Networks.OrderByDescending(a => a.SignalBars));
 
-            SelectedNetworks = _setting.GetSetting<List<string>>(SETTINGS.NETWORKS) ?? new List<string>();
+            var storedNetworks = _setting.GetSetting<WifiNetworkSelectionItem>(SETTINGS.NETWORKS);
+
+            if (storedNetworks != null) {
+                SelectedNetworks = storedNetworks.Networks;
+            }
 
             ShowProgress = Visibility.Collapsed;
 

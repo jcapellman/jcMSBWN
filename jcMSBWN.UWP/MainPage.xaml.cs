@@ -1,6 +1,8 @@
-﻿using Windows.Devices.WiFi;
+﻿using System.Linq;
+using Windows.Devices.WiFi;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
 
 using jcMSBWN.UWP.ViewModels;
@@ -17,6 +19,16 @@ namespace jcMSBWN.UWP {
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             var result = await viewModel.ScanNetworks();
+
+            if (!result || !viewModel.SelectedNetworks.Any()) {
+                return;
+            }
+
+            for (var x = 0; x < viewModel.Networks.Count; x++) {
+                if (viewModel.SelectedNetworks.Contains(viewModel.Networks[x].Ssid)) {
+                    lstViewNetworks.SelectRange(new ItemIndexRange(x, 1));
+                }
+            }
         }
 
         private void AbbSetting_OnClick(object sender, RoutedEventArgs e) {

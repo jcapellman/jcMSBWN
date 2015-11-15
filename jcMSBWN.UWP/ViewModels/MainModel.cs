@@ -8,6 +8,7 @@ using Microsoft.Band;
 using Microsoft.Band.Tiles;
 
 using Windows.Devices.WiFi;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
 using jcMSBWN.UWP.Enums;
@@ -18,7 +19,14 @@ namespace jcMSBWN.UWP.ViewModels {
         readonly SettingsHelper _setting = new SettingsHelper();
 
         private WiFiAdapter _adapter;
-        
+
+        private Visibility _showProgress;
+
+        public Visibility ShowProgress {
+            get {  return _showProgress; }
+            set { _showProgress = value; OnPropertyChanged(); }
+        }
+
         private ObservableCollection<WiFiAvailableNetwork> _networks;
 
         public ObservableCollection<WiFiAvailableNetwork> Networks {
@@ -85,6 +93,8 @@ namespace jcMSBWN.UWP.ViewModels {
         }
 
         public async Task<bool> ScanNetworks() {
+            ShowProgress = Visibility.Visible;
+
             var access = await WiFiAdapter.RequestAccessAsync();
 
             if (access != WiFiAccessStatus.Allowed) {
@@ -106,6 +116,8 @@ namespace jcMSBWN.UWP.ViewModels {
             Networks = new ObservableCollection<WiFiAvailableNetwork>(Networks.OrderByDescending(a => a.SignalBars));
 
             SelectedNetworks = _setting.GetSetting<List<string>>(SETTINGS.NETWORKS) ?? new List<string>();
+
+            ShowProgress = Visibility.Collapsed;
 
             return true;
         }

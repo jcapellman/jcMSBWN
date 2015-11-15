@@ -23,7 +23,16 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <TextBlock Grid.Row="0" Margin="10,10,10,10" Text="Select the networks you wish to be notified about when in range" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" Margin="10,10,10,10" Text="Select the networks you wish to be notified about when in range" />
+        
+            <ProgressBar Grid.Row="1" IsIndeterminate="True" Visibility="{Binding ShowProgress}" />
+        </Grid>
         
         <ListView Grid.Row="1" ItemsSource="{Binding Networks}" x:Name="lstViewNetworks" SelectionMode="Multiple">
             <ListView.ItemTemplate>
